@@ -1,9 +1,3 @@
-version: '3'
-
-networks:
-  todo-data-net:
-    driver: bridge
-
 services:
 
   todoapp:
@@ -19,14 +13,12 @@ services:
     networks:
       - todo-data-net
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     restart: unless-stopped
 
   mysql:
-    image: mysql:1.0
-    build:
-      context: .
-      dockerfile: Dockerfile.mysql
+    image: mysql:8.0
     container_name: mysql
     ports:
       - "3310:3306"
@@ -37,7 +29,17 @@ services:
       - MYSQL_DATABASE=app_db
       - MYSQL_USER=app_user
       - MYSQL_PASSWORD=1234
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "app_user", "-p1234" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     networks:
       - todo-data-net
+
+networks:
+  todo-data-net:
+    driver: bridge
+
 volumes:
   db-data:

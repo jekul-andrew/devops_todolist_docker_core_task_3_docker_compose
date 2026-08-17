@@ -79,6 +79,6 @@ Console screenshots of the running application are included in the repository:
 
 The screenshots are also available at:
 
-https://files.catbox.moe/wez7bw.png
+https://files.catbox.moe/jazrjy.png
 
 https://files.catbox.moe/ks8qiu.png
